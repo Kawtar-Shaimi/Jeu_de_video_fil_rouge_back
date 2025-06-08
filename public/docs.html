@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>API Routes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .logo {
+        height: 40px;
+      }
+      .api-card {
+        border-left: 5px solid #0d6efd;
+      }
+      .method-badge {
+        font-weight: bold;
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-light bg-secondary bg-gradient shadow-sm px-4 mb-4"
+    >
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <div id="logo"></div>
+        <span class="fw-bold text-light">API Documentation</span>
+      </a>
+    </nav>
+
+    <div class="container mb-4">
+      <div class="input-group">
+        <input
+          type="text"
+          id="baseUrlInput"
+          class="form-control"
+          placeholder="Enter base URL e.g. /example"
+          value="/exemple"
+        />
+        <button class="btn btn-primary" id="loadBtn">Load</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row g-3" id="api-routes-container"></div>
+    </div>
+
+    <script>
+      const container = document.getElementById("api-routes-container");
+      const logoContainer = document.getElementById("logo");
+      const baseUrlInput = document.getElementById("baseUrlInput");
+      const loadBtn = document.getElementById("loadBtn");
+
+      const methodColors = {
+        GET: { bg: "primary", text: "white" },
+        POST: { bg: "success", text: "white" },
+        PUT: { bg: "warning", text: "dark" },
+        PATCH: { bg: "info", text: "dark" },
+        DELETE: { bg: "danger", text: "white" },
+      };
+
+      function clearRoutes() {
+        container.innerHTML = "";
+        logoContainer.innerHTML = "";
+      }
+
+      async function fetchApiRoutes(baseUrl) {
+        clearRoutes();
+        try {
+          logoContainer.innerHTML = `<img src="${baseUrl}/public/logo.png" alt="Logo" class="logo me-2" />`;
+
+          const res = await fetch(baseUrl, { method: "GET" });
+          if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+          const data = await res.json();
+
+          data.forEach((route) => {
+            const colors = methodColors[route.method] || {
+              bg: "secondary",
+              text: "white",
+            };
+
+            const card = document.createElement("div");
+            card.className = "col-md-6 col-lg-4";
+
+            card.innerHTML = `
+              <div class="card api-card shadow-sm h-100">
+                <div class="card-body">
+                  <span class="badge bg-${colors.bg} text-${
+              colors.text
+            } method-badge">${route.method}</span>
+                  <p class="mt-2 mb-1 text-break">${route.path}</p>
+                  ${
+                    route.description
+                      ? `<p class="text-muted small mt-2">${route.description}</p>`
+                      : ""
+                  }
+                </div>
+              </div>
+            `;
+
+            container.appendChild(card);
+          });
+        } catch (err) {
+          container.innerHTML = `<div class="col-12 text-danger">Failed to load API routes: ${err.message}</div>`;
+          logoContainer.innerHTML = "";
+          console.error(err);
+        }
+      }
+
+      loadBtn.addEventListener("click", () => {
+        let baseUrl = baseUrlInput.value.trim();
+        if (!baseUrl) return alert("Please enter a base URL.");
+        fetchApiRoutes(baseUrl);
+      });
+
+      fetchApiRoutes(baseUrlInput.value.trim());
+    </script>
+  </body>
+</html>
