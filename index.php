@@ -10,7 +10,7 @@ $ds = new MySQLDataSource(
     'localhost',
     'fil_rouge_rattrapage',
     'root',
-    ''
+    'password'
 );
 Database::init($ds);
 
