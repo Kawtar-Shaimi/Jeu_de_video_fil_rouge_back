@@ -12,7 +12,21 @@ class Request
     public function __construct()
     {
         $this->method = $_SERVER['REQUEST_METHOD'];
-        $this->headers = getallheaders();
+        
+        // Handle CLI environment where getallheaders() is not available
+        if (function_exists('getallheaders')) {
+            $this->headers = getallheaders();
+        } else {
+            $this->headers = [];
+            // For CLI or environments without getallheaders()
+            foreach ($_SERVER as $key => $value) {
+                if (strpos($key, 'HTTP_') === 0) {
+                    $header = str_replace('_', '-', substr($key, 5));
+                    $this->headers[$header] = $value;
+                }
+            }
+        }
+        
         $this->files = $_FILES;
 
         $input = file_get_contents('php://input');
