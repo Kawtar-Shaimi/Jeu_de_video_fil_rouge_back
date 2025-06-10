@@ -38,24 +38,52 @@ abstract class Jeu implements JsonSerializable
     }
 
     // Getters et Setters
-    public function getId() { return $this->id; }
-    public function setId($id) { $this->id = $id; }
+    public function getId() {
+        return $this->id; 
+    }
+    public function setId($id) { 
+        $this->id = $id; 
+    }
 
-    public function getTitre() { return $this->titre; }
-    public function setTitre($titre) { $this->titre = $titre; }
+    public function getTitre() { 
+        return $this->titre; 
+    }
+    public function setTitre($titre) { 
+        $this->titre = $titre; 
+    }
 
-    public function getPrix() { return $this->prix; }
-    public function setPrix($prix) { $this->prix = $prix; }
+    public function getPrix() { 
+        return $this->prix; 
+    }
+    public function setPrix($prix) { 
+        $this->prix = $prix; 
+    }
 
-    public function getGenre() { return $this->genre; }
-    public function setGenre($genre) { $this->genre = $genre; }
+    public function getGenre() { 
+        return $this->genre; 
+    }
+    public function setGenre($genre) { 
+        $this->genre = $genre; 
+    }
 
-    public function getEditeur() { return $this->editeur; }
-    public function setEditeur($editeur) { $this->editeur = $editeur; }
+    public function getEditeur() { 
+        return $this->editeur; 
+    }
+    public function setEditeur($editeur) { 
+        $this->editeur = $editeur; 
+    }
 
-    public function getStockDisponible() { return $this->stockDisponible; }
-    public function setStockDisponible($stockDisponible) { $this->stockDisponible = $stockDisponible; }
+    public function getStockDisponible() { 
+        return $this->stockDisponible; 
+    }
+    public function setStockDisponible($stockDisponible) { 
+        $this->stockDisponible = $stockDisponible; 
+    }
 
-    public function getTypeJeu() { return $this->typeJeu; }
-    public function setTypeJeu($typeJeu) { $this->typeJeu = $typeJeu; }
+    public function getTypeJeu() { 
+        return $this->typeJeu; 
+    }
+    public function setTypeJeu($typeJeu) { 
+        $this->typeJeu = $typeJeu; 
+    }
 } 
