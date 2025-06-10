@@ -20,7 +20,8 @@ class EmployeeDefault implements EmployeeService
 
     public function getEmployees(?array $data): array
     {
-        return $this->employeeRepository->findAllEmployees();
+        $search = $data['search'] ?? null;
+        return $this->employeeRepository->findEmployeesWithSearch($search);
     }
 
     public function augmentSalary(int $employeeId, float $augmentation): Employee

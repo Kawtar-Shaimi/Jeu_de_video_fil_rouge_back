@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion Magasin de Jeux Vidéo</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #5e72e4;
+            --secondary-color: #8c9eff;
+            --success-color: #2dce89;
+            --danger-color: #f5365c;
+            --warning-color: #fb6340;
+            --info-color: #11cdef;
+            --light-gray: #f6f9fc;
+            --medium-gray: #e9ecef;
+            --text-color: #525f7f;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 30px;
+        }
+
+        .nav-pills .nav-link {
+            border-radius: 6px;
+            margin: 0 3px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: var(--text-color);
+            background: white;
+            border: 1px solid var(--medium-gray);
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .nav-pills .nav-link:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+
+        .card {
+            border: 1px solid var(--medium-gray);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(94, 114, 228, 0.08);
+            margin-bottom: 20px;
+            background: white;
+        }
+
+        .card-header {
+            border-radius: 12px 12px 0 0;
+            font-weight: 600;
+            padding: 15px 20px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) !important;
+            color: white !important;
+            border: none;
+        }
+
+        .btn {
+            border-radius: 6px;
+            font-weight: 500;
+            padding: 10px 20px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+
+        .form-control {
+            border-radius: 6px;
+            border: 1px solid #ced4da;
+            transition: all 0.2s ease;
+            padding: 10px 15px;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.15);
+        }
+
+        .table {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--medium-gray);
+            background: white;
+        }
+
+        .table th {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 12px 15px;
+        }
+
+        .table td {
+            padding: 12px 15px;
+            border-color: var(--medium-gray);
+            color: var(--text-color);
+        }
+
+        .header-title {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            font-size: 2.2rem;
+            margin-bottom: 0;
+        }
+
+        .stats-card {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(94, 114, 228, 0.15);
+        }
+
+        .stats-card h3 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner-border {
+            color: var(--primary-color);
+        }
+
+        .alert {
+            border-radius: 6px;
+            border: 1px solid;
+            padding: 12px 16px;
+        }
+
+        .alert-info {
+            background-color: #e3f2fd;
+            border-color: var(--info-color);
+            color: #1565c0;
+        }
+
+        .badge {
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+
+        .bg-success {
+            background-color: var(--success-color) !important;
+        }
+
+        .bg-warning {
+            background-color: var(--warning-color) !important;
+        }
+
+        .bg-danger {
+            background-color: var(--danger-color) !important;
+        }
+
+        .text-muted {
+            color: var(--text-color) !important;
+        }
+
+        .lead {
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h1 class="header-title">
+                    <i class="fas fa-gamepad me-3"></i>
+                    Gestion Magasin de Jeux Vidéo
+                </h1>
+                <p class="lead text-muted">Interface de gestion pour vendeurs</p>
+            </div>
+
+            <!-- Navigation -->
+            <ul class="nav nav-pills nav-fill mb-4" id="mainNav">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="pill" href="#clients">
+                        <i class="fas fa-users me-2"></i>Clients
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#jeux">
+                        <i class="fas fa-gamepad me-2"></i>Inventaire Jeux
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#ventes">
+                        <i class="fas fa-shopping-cart me-2"></i>Ventes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#stats">
+                        <i class="fas fa-chart-bar me-2"></i>Statistiques
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Content -->
+            <div class="tab-content">
+                <!-- Clients Tab -->
+                <div class="tab-pane fade show active" id="clients">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">
+                                    <h5><i class="fas fa-user-plus me-2"></i>Ajouter Client</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="clientForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nom</label>
+                                            <input type="text" class="form-control" id="clientNom" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="clientEmail" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Téléphone</label>
+                                            <input type="tel" class="form-control" id="clientPhone" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-save me-2"></i>Enregistrer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">
+                                    <h5><i class="fas fa-users me-2"></i>Liste des Clients</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="loading" id="clientsLoading">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Nom</th>
+                                                    <th>Email</th>
+                                                    <th>Téléphone</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="clientsTable"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jeux Tab -->
+                <div class="tab-pane fade" id="jeux">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header bg-success text-white">
+                                    <h5><i class="fas fa-gamepad me-2"></i>Ajouter Jeu</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="jeuForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Type de Jeu</label>
+                                            <select class="form-control" id="jeuType" required>
+                                                <option value="">Sélectionner...</option>
+                                                <option value="PC">Jeu PC</option>
+                                                <option value="Console">Jeu Console</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Titre</label>
+                                            <input type="text" class="form-control" id="jeuTitre" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Prix (€)</label>
+                                            <input type="number" step="0.01" class="form-control" id="jeuPrix" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Genre</label>
+                                            <input type="text" class="form-control" id="jeuGenre" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Éditeur</label>
+                                            <input type="text" class="form-control" id="jeuEditeur" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Stock Disponible</label>
+                                            <input type="number" class="form-control" id="jeuStock" required>
+                                        </div>
+                                        <div id="jeuSpecifiques"></div>
+                                        <button type="submit" class="btn btn-success w-100">
+                                            <i class="fas fa-save me-2"></i>Ajouter Jeu
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header bg-success text-white">
+                                    <h5><i class="fas fa-list me-2"></i>Inventaire des Jeux</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="loading" id="jeuxLoading">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Titre</th>
+                                                    <th>Type</th>
+                                                    <th>Prix</th>
+                                                    <th>Genre</th>
+                                                    <th>Stock</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="jeuxTable"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ventes Tab -->
+                <div class="tab-pane fade" id="ventes">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header bg-warning text-white">
+                                    <h5><i class="fas fa-shopping-cart me-2"></i>Nouvelle Vente</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="venteForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Client</label>
+                                            <select class="form-control" id="venteClient" required>
+                                                <option value="">Sélectionner un client...</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Jeu</label>
+                                            <select class="form-control" id="venteJeu" required>
+                                                <option value="">Sélectionner un jeu...</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Quantité</label>
+                                            <input type="number" min="1" class="form-control" id="venteQuantite" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Statut</label>
+                                            <select class="form-control" id="venteStatut" required>
+                                                <option value="PAYÉE">PAYÉE</option>
+                                                <option value="EN_ATTENTE">EN_ATTENTE</option>
+                                                <option value="ANNULÉE">ANNULÉE</option>
+                                            </select>
+                                        </div>
+                                        <div class="alert alert-info" id="venteCalcul" style="display: none;"></div>
+                                        <button type="submit" class="btn btn-warning w-100">
+                                            <i class="fas fa-cash-register me-2"></i>Enregistrer Vente
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header bg-warning text-white">
+                                    <h5><i class="fas fa-receipt me-2"></i>Historique des Ventes</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="loading" id="ventesLoading">
+                                        <div class="spinner-border" role="status"></div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Date</th>
+                                                    <th>Client</th>
+                                                    <th>Jeu</th>
+                                                    <th>Quantité</th>
+                                                    <th>Total (€)</th>
+                                                    <th>Statut</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="ventesTable"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Tab -->
+                <div class="tab-pane fade" id="stats">
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <i class="fas fa-users fa-2x mb-3"></i>
+                                <h3 id="totalClients">0</h3>
+                                <p>Clients Enregistrés</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <i class="fas fa-gamepad fa-2x mb-3"></i>
+                                <h3 id="totalJeux">0</h3>
+                                <p>Jeux en Stock</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <i class="fas fa-shopping-cart fa-2x mb-3"></i>
+                                <h3 id="totalVentes">0</h3>
+                                <p>Ventes Réalisées</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <i class="fas fa-euro-sign fa-2x mb-3"></i>
+                                <h3 id="chiffreAffaires">0€</h3>
+                                <p>Chiffre d'Affaires</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050">
+        <div id="toastContainer"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html> 

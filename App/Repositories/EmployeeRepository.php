@@ -19,6 +19,21 @@ class EmployeeRepository extends RepositoryMutations
         return $this->arrayMapper($data);
     }
 
+    public function findEmployeesWithSearch(?string $search = null): array
+    {
+        if (empty($search)) {
+            return $this->findAllEmployees();
+        }
+        
+        $sql = "SELECT * FROM $this->tableName WHERE name LIKE :search OR email LIKE :search";
+        $stmt = $this->db->getPdo()->prepare($sql);
+        $searchParam = '%' . $search . '%';
+        $stmt->execute(['search' => $searchParam]);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $this->arrayMapper($data);
+    }
+
     public function findById($id): Employee
     {
         $stmt = $this->db->getPdo()->prepare("SELECT * FROM $this->tableName WHERE id = :id LIMIT 1");
